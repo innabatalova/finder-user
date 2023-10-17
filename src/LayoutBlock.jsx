@@ -1,8 +1,12 @@
 import React from 'react'
 
+import SideBar from './components/SideBar/SideBar'
+
 const LayoutBlock = () => {
   return (
-    <div className="">test</div>
+    <div className="layout">
+      <SideBar/>
+    </div>
   )
 }
 
