@@ -6,7 +6,19 @@ import ResultDefoult from './ResultDefoult'
 const ResultView = () => {
   return (
     <div className="result">
-      <ResultDefoult />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
+      <UserCard />
     </div>
   )
 }

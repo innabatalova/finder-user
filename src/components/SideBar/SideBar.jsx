@@ -11,8 +11,20 @@ const SideBar = () => {
       <input className='sidebar__field' type="text" placeholder='Введите Id или имя '/>
       <span className='sidebar__title'>Результаты</span>
       <div className="sidebar__search">
-        <StartSearch/>
-        <NoResult />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
+        <UserPreview />
         <UserPreview />
         <UserPreview />
       </div>
