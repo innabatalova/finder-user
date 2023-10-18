@@ -25,7 +25,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|webp|ico)$/i,
         type: 'asset/resource',
       },
-      { test: /\.(js|jsx)?$/, use: "babel-loader", query: { compact: false } }
+      { test: /\.(js|jsx)?$/, use: "babel-loader" }
     ],
   },
   resolve: {
