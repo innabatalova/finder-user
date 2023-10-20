@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 
+import { Context } from '../../context/context'
 import { userApi } from '../../api/userApi'
 
 import StartSearch from './StartSearch'
@@ -7,14 +8,14 @@ import NoResult from './NoResult'
 import UserPreview from './UserPreview'
 
 const SideBar = () => {
-  const [userResult, setUserResult] = useState(null)
+  const { contextUser, setContextUser } = useContext(Context)
+  useEffect(() => { setContextUser(StartSearch) }, [])
 
   const getUsers = (e) => {
     let inputValue = e.target.value
-
     let arrInputValue = []
-    arrInputValue = (inputValue.trim().split(', '))
 
+    arrInputValue = (inputValue.trim().split(', '))
     const arrTypeInputValue = arrInputValue.map(item =>
       isNaN(item) == false ? parseInt(item) : item
     )
@@ -32,7 +33,6 @@ const SideBar = () => {
         })
       }
       )
-
     let urlNumber = userApi(arrNumbers)
     fetch(urlNumber)
       .then((response) => response.json())
@@ -45,11 +45,10 @@ const SideBar = () => {
 
     setTimeout(() => {
       const itemArr = resultArr.map((item, index) =>
-        <UserPreview key={index} nameUserPreviewProps={item.name} emailUserPreviewProps={item.email}/>
+        <UserPreview key={index} nameUserPreviewProps={item.name} emailUserPreviewProps={item.email} />
       )
-      setUserResult(itemArr)
+      itemArr.length === 0 ? setContextUser(NoResult) : setContextUser(itemArr)
     }, 500);
-
   }
 
   return (
@@ -58,7 +57,7 @@ const SideBar = () => {
       <input onChange={getUsers} className='sidebar__field' type="text" placeholder='Введите Id или имя ' />
       <span className='sidebar__title'>Результаты</span>
       <div className="sidebar__search">
-        {userResult}
+        {contextUser}
       </div>
     </div>
   )
