@@ -11,41 +11,45 @@ const SideBar = () => {
 
   const getUsers = (e) => {
     let inputValue = e.target.value
-    const arrProps = (inputValue.split(', '))
 
-    const arrUrls = []
+    let arrInputValue = []
+    arrInputValue = (inputValue.trim().split(', '))
 
-    arrProps.forEach(item => {
-      if (isNaN(item) == false) {
-        const intArrProps = arrProps.map(item => {
-          var number = parseInt(item)
-          return number
+    const arrTypeInputValue = arrInputValue.map(item =>
+      isNaN(item) == false ? parseInt(item) : item
+    )
+
+    const arrStrings = arrTypeInputValue.filter((item) => typeof item == 'string')
+    const arrNumbers = arrTypeInputValue.filter((item) => typeof item == 'number')
+    const resultArr = []
+
+    let urlString = userApi(arrStrings)
+    fetch(urlString)
+      .then((response) => response.json())
+      .then((data) => {
+        data.forEach(item => {
+          resultArr.push(item)
         })
-        let urlNumber = userApi(intArrProps)
-        fetch(urlNumber)
-          .then((response) => response.json())
-          .then((data) => {
-            const userData = data.map(item =>
-              item
-            )
-            arrUrls.push(userData)
-          }
-          )
-
-      } else if (isNaN(item) == true) {
-        let urlString = userApi(arrProps)
-        fetch(urlString)
-          .then((response) => response.json())
-          .then((data) => {
-            const userData = data.map(item =>
-              item
-            )
-            arrUrls.push(userData)
-          }
-          )
       }
-    })
-    console.log(arrUrls)
+      )
+
+    let urlNumber = userApi(arrNumbers)
+    fetch(urlNumber)
+      .then((response) => response.json())
+      .then((data) => {
+        data.forEach(item => {
+          resultArr.push(item)
+        })
+      }
+      )
+
+    setTimeout(() => {
+      const itemArr = resultArr.map((item, index) =>
+        <UserPreview key={index} nameUserPreviewProps={item.name} emailUserPreviewProps={item.email}/>
+      )
+      setUserResult(itemArr)
+    }, 500);
+
   }
 
   return (
