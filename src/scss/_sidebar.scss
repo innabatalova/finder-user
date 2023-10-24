@@ -5,6 +5,10 @@
   border-right: 1px solid #E0E0E0;
   overflow: scroll;
 
+  &::-webkit-scrollbar {
+      width: 0;
+    }
+
   &__title {
     display: inline-block;
     margin-bottom: 20px;

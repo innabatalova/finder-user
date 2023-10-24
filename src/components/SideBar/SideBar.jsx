@@ -1,63 +1,33 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { Context } from '../../context/context'
-import { userApi } from '../../api/userApi'
+import { ContextUserData } from '../../context/context'
 
+import SearchField from '../ResultView/SearchField'
 import StartSearch from './StartSearch'
 import NoResult from './NoResult'
 import UserPreview from './UserPreview'
 
 const SideBar = () => {
-  const { contextUser, setContextUser } = useContext(Context)
-  useEffect(() => { setContextUser(StartSearch) }, [])
+  const { contextUser } = useContext(ContextUserData)
+  const [stateUser, setStateUser] = useState(contextUser)
 
-  const getUsers = (e) => {
-    let inputValue = e.target.value
-    let arrInputValue = []
-
-    arrInputValue = (inputValue.trim().split(', '))
-    const arrTypeInputValue = arrInputValue.map(item =>
-      isNaN(item) == false ? parseInt(item) : item
+  useEffect(() => {
+    if (stateUser.length === 0){setStateUser(StartSearch)}
+    else{
+    const itemArr = contextUser.map((item, index) =>
+      <UserPreview key={index} nameUserPreviewProps={item.name} emailUserPreviewProps={item.email} />
     )
-
-    const arrStrings = arrTypeInputValue.filter((item) => typeof item == 'string')
-    const arrNumbers = arrTypeInputValue.filter((item) => typeof item == 'number')
-    const resultArr = []
-
-    let urlString = userApi(arrStrings)
-    fetch(urlString)
-      .then((response) => response.json())
-      .then((data) => {
-        data.forEach(item => {
-          resultArr.push(item)
-        })
-      }
-      )
-    let urlNumber = userApi(arrNumbers)
-    fetch(urlNumber)
-      .then((response) => response.json())
-      .then((data) => {
-        data.forEach(item => {
-          resultArr.push(item)
-        })
-      }
-      )
-
-    setTimeout(() => {
-      const itemArr = resultArr.map((item, index) =>
-        <UserPreview key={index} nameUserPreviewProps={item.name} emailUserPreviewProps={item.email} />
-      )
-      itemArr.length === 0 ? setContextUser(NoResult) : setContextUser(itemArr)
-    }, 500);
-  }
+    itemArr.length === 0 ? setStateUser(NoResult) : setStateUser(itemArr)
+    }
+  }, [contextUser])
 
   return (
     <div className='sidebar'>
       <span className='sidebar__title'>Поиск сотрудников</span>
-      <input onChange={getUsers} className='sidebar__field' type="text" placeholder='Введите Id или имя ' />
+      <SearchField />
       <span className='sidebar__title'>Результаты</span>
       <div className="sidebar__search">
-        {contextUser}
+        {stateUser}
       </div>
     </div>
   )

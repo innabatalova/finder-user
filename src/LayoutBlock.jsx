@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import { Context } from './context/context'
+import { ContextUserData } from './context/context'
 
 import SideBar from './components/SideBar/SideBar'
 import ResultView from './components/ResultView/ResultView'
+import StartSearch from './components/SideBar/StartSearch'
 
 const LayoutBlock = () => {
-  const [contextUser, setContextUser] = useState('')
+  const [contextUser, setContextUser] = useState([])
+
   return (
-    <Context.Provider value={{ contextUser, setContextUser }}>
+    <ContextUserData.Provider value={{ contextUser, setContextUser }}>
       <div className="layout">
         <div className="layout__bar">
           <h1 className="layout__title">Жилфонд</h1>
@@ -18,7 +20,7 @@ const LayoutBlock = () => {
           <ResultView />
         </div>
       </div>
-    </Context.Provider>
+    </ContextUserData.Provider>
   )
 }
 
